@@ -1,0 +1,104 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides: $0
+# Required-Start: 
+# Required-Stop:
+# Default-Start: 2 3 4 5
+# Short-Description: An example init script that is LSB compliant.
+# Description: This script can be used as an example for any
+	LSB compliant scripts that the user may wish to create. It can
+	be used as a good base from which to create services which integrate
+	with pacemaker/corosync.
+### END INIT INFO
+
+# source function library
+. /etc/rc.d/init.d/functions
+
+# Configure variables.
+RETVAL=0
+pidfile=/var/run/$0.pid
+lockfile=/var/lock/subsys/$0
+
+# Exit codes:
+# 1 - generic error
+# 2 - invalid/excess args
+# 3 - unimplemented
+# 4 - insufficient privilege
+# 5 - program not installed
+# 6 - program not configured
+# 7 - program not running
+
+if [[ $EUID != 0 ]]
+then
+	echo "Insufficient privilege."
+	exit 4
+fi
+
+start()
+{
+	# start when started = exit 0
+	return $RETVAL
+}
+
+stop()
+{
+	# stop when stopped = exit 0
+	return $RETVAL
+}
+
+restart() {
+	stop
+	start
+}
+
+try-restart() {
+	echo "Function not supported."
+	exit 3
+}
+
+reload() {
+	echo "Function not supported."
+	exit 3
+}
+
+force_reload() {
+	# reload ## if implemented.
+	restart
+}
+
+status() {
+	# 0 - ok
+	# 1 - dead, pid exists
+	# 2 - dead, lock exists
+	# 3 - not running
+	# 4 - unknown
+}
+
+case "$1" in
+	start)
+		$1
+		;;
+	stop)
+		$1
+		;;
+	restart)
+		$1
+		;;
+	try-restart)
+		$1
+		;;
+	force-reload)
+		$1
+		;;
+	reload)
+		$1
+		;;
+	status)
+		$1
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|restart|try-restart|reload|force-reload|status}"
+		RETVAL=2
+esac
+exit $RETVAL
